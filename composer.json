@@ -1,0 +1,34 @@
+{
+    "name": "blue32a/laravel-azure-blob-storage",
+    "description": "Laravel Filesystem using Azure Blob Storage.",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "blue32a",
+            "email": "blue32a.jp@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2",
+        "illuminate/support": "^6.0",
+        "blue32a/flysystem-azure-blob-storage": "^0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.5",
+        "mockery/mockery": "^1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Blue32a\\Laravel\\Filesystem\\AzureBlobStorage\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    }
+}
