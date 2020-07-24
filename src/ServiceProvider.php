@@ -28,17 +28,41 @@ class ServiceProvider extends BaseServiceProvider
     public function boot()
     {
         Storage::extend('azure-blob', function ($app, $config) {
-            $connection = sprintf(
-                'DefaultEndpointsProtocol=%s;AccountName=%s;AccountKey=%s;',
-                $config['secure'] ? 'https' : 'http',
-                $config['name'],
-                $config['key']
-            );
-            $client = BlobRestProxy::createBlobService($connection);
+            $adapter = $this->createAdapter($config);
 
-            return new Filesystem(
-                new AzureBlobStorageAdapter($client, $config['container'])
-            );
+            return new Filesystem($adapter);
         });
+    }
+
+    /**
+     * @param array $config
+     * @return AzureBlobStorageAdapter
+     */
+    protected function createAdapter(array $config): AzureBlobStorageAdapter
+    {
+        $connectionStr = $this->createConnectionString($config);
+        $client = BlobRestProxy::createBlobService($connectionStr);
+
+        return new AzureBlobStorageAdapter($client, $config['container']);
+    }
+
+    /**
+     * @param array $config
+     * @return string
+     */
+    protected function createConnectionString(array $config): string
+    {
+        $connectionStr = sprintf(
+            'DefaultEndpointsProtocol=%s;AccountName=%s;AccountKey=%s;',
+            $config['secure'] ? 'https' : 'http',
+            $config['name'],
+            $config['key']
+        );
+
+        if ($config['blob_endpoint']) {
+            $connectionStr .= sprintf('BlobEndpoint=%s;', $config['blob_endpoint']);
+        }
+
+        return $connectionStr;
     }
 }

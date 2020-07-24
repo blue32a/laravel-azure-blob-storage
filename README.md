@@ -29,6 +29,7 @@ The driver is `azure-blob`.
             'name' => env('AZULE_STORAGE_NAME'),
             'key' => env('AZULE_STORAGE_KEY'),
             'container' => 'example',
+            'blob_endpoint' => env('AZULE_STORAGE_BLOB_ENDPOINT'),
         ],
 
     ],
