@@ -43,7 +43,10 @@ class ServiceProvider extends BaseServiceProvider
         $connectionStr = $this->createConnectionString($config);
         $client = BlobRestProxy::createBlobService($connectionStr);
 
-        return new AzureBlobStorageAdapter($client, $config['container']);
+        $adapter = new AzureBlobStorageAdapter($client, $config['container']);
+        $adapter->setPublicEndpoint($config['public_endpoint']);
+
+        return $adapter;
     }
 
     /**

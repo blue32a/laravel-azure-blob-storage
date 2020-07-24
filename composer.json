@@ -12,7 +12,7 @@
     "require": {
         "php": "^7.2",
         "illuminate/support": "^6.0|^7.0",
-        "blue32a/flysystem-azure-blob-storage": "^0.1"
+        "blue32a/flysystem-azure-blob-storage": "^0.2"
     },
     "require-dev": {
         "phpunit/phpunit": "^8.5",

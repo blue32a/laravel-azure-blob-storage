@@ -56,10 +56,13 @@ class AzureBlobStorageTest extends TestCase
      */
     public function testCreateAdapter()
     {
+        $publicEndpoint = 'https://storage.example.com';
         $config = [
             'container' => 'example',
+            'public_endpoint' => $publicEndpoint,
         ];
         $connectionStr = 'example_connection_string';
+
         $targetMock = $this->createTargetMock();
         $targetMock->shouldAllowMockingProtectedMethods();
         $targetMock
@@ -79,6 +82,11 @@ class AzureBlobStorageTest extends TestCase
 
         $result = $createAdapterRef->invoke($targetMock, $config);
         $this->assertInstanceOf(AzureBlobStorageAdapter::class, $result);
+
+        $resultRef = new \ReflectionClass($result);
+        $publicEndpointRef = $resultRef->getProperty('publicEndpoint');
+        $publicEndpointRef->setAccessible(true);
+        $this->assertEquals($publicEndpoint, $publicEndpointRef->getValue($result));
     }
 
     /**
