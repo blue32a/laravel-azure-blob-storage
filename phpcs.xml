@@ -8,6 +8,6 @@
     <arg name="report-full"/>
     <arg value="sp"/>
 
-    <rule ref="PSR12"/>
+    <rule ref="Blue32a"/>
 
 </ruleset>
