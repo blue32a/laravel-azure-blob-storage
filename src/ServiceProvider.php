@@ -41,7 +41,7 @@ class ServiceProvider extends BaseServiceProvider
     protected function createAdapter(array $config): AzureBlobStorageAdapter
     {
         $connectionStr = $this->createConnectionString($config);
-        $client = BlobRestProxy::createBlobService($connectionStr);
+        $client        = BlobRestProxy::createBlobService($connectionStr);
 
         $adapter = new AzureBlobStorageAdapter($client, $config['container']);
         $adapter->setPublicEndpoint($config['public_endpoint']);

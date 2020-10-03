@@ -10,7 +10,7 @@ use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
 use PHPUnit\Framework\TestCase;
 
-class AzureBlobStorageTest extends TestCase
+class ServiceProviderTest extends TestCase
 {
     use MockeryPHPUnitIntegration;
 
@@ -39,7 +39,7 @@ class AzureBlobStorageTest extends TestCase
     {
         $storageSpy = Storage::spy();
 
-        $appMock = Mockery::mock('Application');
+        $appMock  = Mockery::mock('Application');
         $provider = new ServiceProvider($appMock);
         $provider->boot();
 
@@ -57,11 +57,11 @@ class AzureBlobStorageTest extends TestCase
     public function testCreateAdapter()
     {
         $publicEndpoint = 'https://storage.example.com';
-        $config = [
+        $config         = [
             'container' => 'example',
             'public_endpoint' => $publicEndpoint,
         ];
-        $connectionStr = 'example_connection_string';
+        $connectionStr  = 'example_connection_string';
 
         $targetMock = $this->createTargetMock();
         $targetMock->shouldAllowMockingProtectedMethods();
@@ -77,13 +77,14 @@ class AzureBlobStorageTest extends TestCase
             ->andReturn($blobRestProxyMock);
 
         $targetRef = $this->createTargetReflection();
+
         $createAdapterRef = $targetRef->getMethod('createAdapter');
         $createAdapterRef->setAccessible(true);
 
         $result = $createAdapterRef->invoke($targetMock, $config);
         $this->assertInstanceOf(AzureBlobStorageAdapter::class, $result);
 
-        $resultRef = new \ReflectionClass($result);
+        $resultRef         = new \ReflectionClass($result);
         $publicEndpointRef = $resultRef->getProperty('publicEndpoint');
         $publicEndpointRef->setAccessible(true);
         $this->assertEquals($publicEndpoint, $publicEndpointRef->getValue($result));
@@ -104,14 +105,15 @@ class AzureBlobStorageTest extends TestCase
     public function testCreateConnectionString()
     {
         $targetRef = $this->createTargetReflection();
+
         $createConnectionStringRef = $targetRef->getMethod('createConnectionString');
         $createConnectionStringRef->setAccessible(true);
 
         $targetMock = $this->createTargetMock();
 
-        $secure = true;
-        $name = 'example_name';
-        $key = 'example_key';
+        $secure       = true;
+        $name         = 'example_name';
+        $key          = 'example_key';
         $blobEndpoint = null;
 
         $resulFirst = $createConnectionStringRef->invoke($targetMock, [
@@ -126,7 +128,7 @@ class AzureBlobStorageTest extends TestCase
         $this->assertStringContainsString(sprintf('AccountKey=%s;', $key), $resulFirst);
         $this->assertStringNotContainsString('BlobEndpoint', $resulFirst);
 
-        $secure = false;
+        $secure       = false;
         $blobEndpoint = 'https://blob.example.com';
 
         $resulSecond = $createConnectionStringRef->invoke($targetMock, [
