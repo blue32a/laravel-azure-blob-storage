@@ -15,9 +15,10 @@
         "illuminate/support": "^6.0|^7.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^8.5",
+        "blue32a/php-coding-standard": "v0.1.0-alpha",
         "mockery/mockery": "^1.3",
-        "blue32a/php-coding-standard": "v0.1.0-alpha"
+        "php-parallel-lint/php-parallel-lint": "^1.3",
+        "phpunit/phpunit": "^8.5"
     },
     "extra": {
         "laravel": {
@@ -37,6 +38,7 @@
         }
     },
     "scripts": {
+        "lint": "vendor/bin/parallel-lint --no-progress --exclude vendor .",
         "cs": "vendor/bin/phpcs --standard=phpcs.xml",
         "cbf": "vendor/bin/phpcbf --standard=phpcs.xml",
         "test": "vendor/bin/phpunit"
