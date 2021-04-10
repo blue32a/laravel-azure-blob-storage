@@ -17,7 +17,6 @@ class ServiceProvider extends BaseServiceProvider
      */
     public function register()
     {
-        //
     }
 
     /**
@@ -34,10 +33,6 @@ class ServiceProvider extends BaseServiceProvider
         });
     }
 
-    /**
-     * @param array $config
-     * @return AzureBlobStorageAdapter
-     */
     protected function createAdapter(array $config): AzureBlobStorageAdapter
     {
         $connectionStr = $this->createConnectionString($config);
@@ -49,10 +44,6 @@ class ServiceProvider extends BaseServiceProvider
         return $adapter;
     }
 
-    /**
-     * @param array $config
-     * @return string
-     */
     protected function createConnectionString(array $config): string
     {
         $connectionStr = sprintf(

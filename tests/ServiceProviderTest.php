@@ -35,7 +35,7 @@ class ServiceProviderTest extends TestCase
     /**
      * @test
      */
-    public function testBoot()
+    public function testBoot(): void
     {
         $storageSpy = Storage::spy();
 
@@ -49,12 +49,11 @@ class ServiceProviderTest extends TestCase
     }
 
     /**
-     * @test
      * @runInSeparateProcess
      * @preserveGlobalState disabled
-     * @return void
+     * @test
      */
-    public function testCreateAdapter()
+    public function testCreateAdapter(): void
     {
         $publicEndpoint = 'https://storage.example.com';
         $config         = [
@@ -100,9 +99,8 @@ class ServiceProviderTest extends TestCase
 
     /**
      * @test
-     * @return void
      */
-    public function testCreateConnectionString()
+    public function testCreateConnectionString(): void
     {
         $targetRef = $this->createTargetReflection();
 
