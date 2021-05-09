@@ -8,7 +8,10 @@ use Illuminate\Support\Facades\Storage;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use Mockery;
 use Mockery\Adapter\Phpunit\MockeryPHPUnitIntegration;
+use Mockery\LegacyMockInterface;
+use Mockery\MockInterface;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 
 class ServiceProviderTest extends TestCase
 {
@@ -17,7 +20,7 @@ class ServiceProviderTest extends TestCase
     public const STORAGE_DISK = 'azure-blob';
 
     /**
-     * @return \Mockery\MockInterface&\Mockery\LegacyMockInterface&ServiceProvider
+     * @return MockInterface&LegacyMockInterface&ServiceProvider
      */
     protected function createTargetMock()
     {
@@ -25,11 +28,11 @@ class ServiceProviderTest extends TestCase
     }
 
     /**
-     * @return \ReflectionClass
+     * @return ReflectionClass
      */
     protected function createTargetReflection()
     {
-        return new \ReflectionClass(ServiceProvider::class);
+        return new ReflectionClass(ServiceProvider::class);
     }
 
     /**
@@ -83,14 +86,14 @@ class ServiceProviderTest extends TestCase
         $result = $createAdapterRef->invoke($targetMock, $config);
         $this->assertInstanceOf(AzureBlobStorageAdapter::class, $result);
 
-        $resultRef         = new \ReflectionClass($result);
+        $resultRef         = new ReflectionClass($result);
         $publicEndpointRef = $resultRef->getProperty('publicEndpoint');
         $publicEndpointRef->setAccessible(true);
         $this->assertEquals($publicEndpoint, $publicEndpointRef->getValue($result));
     }
 
     /**
-     * @return \Mockery\MockInterface&\Mockery\LegacyMockInterface&BlobRestProxy
+     * @return MockInterface&LegacyMockInterface&BlobRestProxy
      */
     protected function createBlobRestProxyAliasMock()
     {
