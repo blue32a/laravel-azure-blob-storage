@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blue32a\Laravel\Filesystem\AzureBlobStorage;
 
 use Blue32a\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
@@ -12,27 +14,26 @@ class ServiceProvider extends BaseServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
-    public function register()
+    public function register(): void
     {
     }
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Storage::extend('azure-blob', function ($app, $config) {
+        Storage::extend('azure-blob', function ($app, $config): Filesystem {
             $adapter = $this->createAdapter($config);
 
             return new Filesystem($adapter);
         });
     }
 
+    /**
+     * @param array<string,mixed> $config
+     */
     protected function createAdapter(array $config): AzureBlobStorageAdapter
     {
         $connectionStr = $this->createConnectionString($config);
@@ -44,6 +45,9 @@ class ServiceProvider extends BaseServiceProvider
         return $adapter;
     }
 
+    /**
+     * @param array<string,mixed> $config
+     */
     protected function createConnectionString(array $config): string
     {
         $connectionStr = sprintf(
