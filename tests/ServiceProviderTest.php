@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Tests;
 
 use Blue32a\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter;
@@ -27,10 +29,7 @@ class ServiceProviderTest extends TestCase
         return Mockery::mock(ServiceProvider::class);
     }
 
-    /**
-     * @return ReflectionClass
-     */
-    protected function createTargetReflection()
+    protected function createTargetReflection(): ReflectionClass
     {
         return new ReflectionClass(ServiceProvider::class);
     }
@@ -52,8 +51,8 @@ class ServiceProviderTest extends TestCase
     }
 
     /**
-     * @runInSeparateProcess
      * @preserveGlobalState disabled
+     * @runInSeparateProcess
      * @test
      */
     public function testCreateAdapter(): void
